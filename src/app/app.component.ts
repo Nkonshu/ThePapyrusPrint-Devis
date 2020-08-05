@@ -284,7 +284,7 @@ export class AppComponent implements OnInit{
       }
 
       case 'Macaron': {
-        this.montant  = this.selectedMacaron * this.selectedQuantite1;
+        this.montant  = this.selectedMacaron * this.selectedQuantite2;
         break; 
       }
 
