@@ -1,11 +1,16 @@
+//Install express server
 const express = require('express');
+const path = require('path');
 
 const app = express();
 
-app.use(express.static('./dist/the-papyrus-print-devis'));
+// Serve only the static files form the dist directory
+app.use(express.static(__dirname + '/dist/the-papyrus-print-devis'));
 
-app.get('/*', (req, res) =>
-    res.sendFile('index.html', {root: 'dist/the-papyrus-print-devis/'}),
-);
+app.get('/*', function(req,res) {
+    
+res.sendFile(path.join(__dirname+'/dist/the-papyrus-print-devis/index.html'));
+});
 
+// Start the app by listening on the default Heroku port
 app.listen(process.env.PORT || 8080);
