@@ -64,13 +64,16 @@
                     <option *ngFor="let model_macaron of model_macarons" [value]="[model_macaron.prixClient, model_macaron.prixSousTraitant]">{{ model_macaron.title }}</option>
                   </select>
                 </div>
-                <div class="form-group" [hidden]="!show_quantite1">
-                  <label for="quantite">Quantité de produit (Gros) :</label>
-                  <input type="number" class="form-control" id="quantite1" [(ngModel)]="selectedQuantite1" placeholder="Quantité de produit" min="0" step="50" name="quantite1">
+                <div class="form-group" [hidden]="!show_couleur">
+                  <label for="couleur">Couleur :</label>
+                  <select type="text" class="form-control" id="couleur" required [(ngModel)]="selectedCouleur" (change)="onChangeCouleur()" name="couleur">
+                    <option>None</option>
+                    <option *ngFor="let couleur of couleurs" [value]="[couleur.prixClient, couleur.prixSousTraitant]">{{ couleur.title }}</option>
+                  </select>
                 </div>
-                <div class="form-group" [hidden]="!show_quantite2">
-                  <label for="quantite">Quantité de produit (Détail) :</label>
-                  <input type="number" class="form-control" id="quantite2" [(ngModel)]="selectedQuantite2" placeholder="Quantité de produit" min="0" name="quantite2">
+                <div class="form-group" [hidden]="!show_quantite">
+                  <label for="quantite">Quantité de produit :</label>
+                  <input type="number" class="form-control" id="quantite" [(ngModel)]="selectedQuantite" placeholder="Quantité de produit" min="0" step="50" name="quantite">
                 </div>
                 
                 <button type="button" class="btn btn-primary" (click)="calculerDevis()">Calculer</button>
@@ -81,8 +84,8 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Total du Devis</h5>
-              <p class="card-text">Client : {{ montantClient  | currency:'XAF' }}</p>
-              <p class="card-text">Sous traitant : {{ montantSousTraitant  | currency:'XAF' }}</p>
+              <p class="card-text">Client : {{calcul_detail_client}} = {{ montantClient  | currency:'XAF' }}</p>
+              <p class="card-text">Sous traitant : {{calcul_detail_SousTraitant}} = {{ montantSousTraitant  | currency:'XAF' }}</p>
               <p class="card-link" style="color: rgb(0, 162, 255);" (click)="effacer()">Effacer</p>
             </div>
           </div>

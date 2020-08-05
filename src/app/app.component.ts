@@ -13,6 +13,7 @@ export class AppComponent implements OnInit{
   tailles: any[];
   papiers_cartes: any[];
   papiers_designs: any[];
+  couleurs: any[];
   model_macarons: any[];
   montantClient: any;
   montantSousTraitant: any;
@@ -24,8 +25,8 @@ export class AppComponent implements OnInit{
   selectedTaille: any;
   selectedMatiere: any;
   selectedFormat: any;
-  selectedQuantite1: any;
-  selectedQuantite2: any;
+  selectedQuantite: any;
+  selectedCouleur: any;
   
 
   show_Matiere: boolean;
@@ -34,15 +35,18 @@ export class AppComponent implements OnInit{
   show_PapierC: boolean;
   show_PapierD: boolean;
   show_macaronM: boolean;
-  show_quantite1: boolean;
-  show_quantite2: boolean;
+  show_quantite: boolean;
+  show_couleur: boolean;
+
+  calcul_detail_client: any;
+  calcul_detail_SousTraitant: any;
 
   constructor() {}
 
   ngOnInit() {
     this.effacer();
-    this.show_quantite1 = true;
-    this.show_quantite2 = false;
+    this.show_quantite = true;
+    this.show_couleur = false;
 
     this.produits = [
       { title: 'Cartes de visites', selected: false, type: 'Carte'},
@@ -52,55 +56,54 @@ export class AppComponent implements OnInit{
       { title: 'Programme', selected: false, type: 'Papier'},
       { title: 'Marque place', selected: false, type: 'Papier'},
       { title: 'Carton plumes', selected: false, type: 'Papier'},
+      { title: 'Enveloppe', selected: false, type: 'Papier'},
       { title: 'Calendrier', selected: false, type: 'Papier'},
+      { title: 'Chemise porte documents', selected: false, type: 'Papier'},
       { title: 'Affiches', selected: false, type: 'Papier'},
+      { title: 'Sac papier - Packaging', selected: false, type: 'papier'},
+      { title: 'Sac plastique - Packaging', selected: false, type: 'Design'},
+      { title: 'T-shirt', selected: false, type: 'Design'},
+      { title: 'Sweat-shirt', selected: false, type: 'Design'},
       { title: 'Autocollant', selected: false, type: 'Etandard'},
       { title: 'Rolls-up', selected: false, type: 'Etandard'},
       { title: 'Banderoles', selected: false, type: 'Etandard'},
       { title: 'Etiquettes', selected: false, type: 'Etandard'},
-      { title: 'Sac papier - Packaging', selected: false, type: 'Design'},
-      { title: 'Chemise porte documents', selected: false, type: 'Design'},
-      { title: 'T-shirt', selected: false, type: 'Design'},
-      { title: 'Sweat-shirt', selected: false, type: 'Design'},
-      { title: 'Mugs magiques 2500/3500 fcfa', selected: false, type: 'MugsM', prixSousTraitant: 2500, prixClient: 3500},
-      { title: 'Mugs 3500/5000 fcfa', selected: false, type: 'Mugs', prixSousTraitant: 3500, prixClient: 5000},
-      { title: 'Stylo', selected: false, type: 'Stylo', prixSousTraitant: 0, prixClient: 0},
+      { title: 'Mugs magiques 3500/5000 fcfa', selected: false, type: 'MugsM', prixSousTraitant: 2500, prixClient: 3500},
+      { title: 'Mugs 2500/3500 fcfa', selected: false, type: 'Mugs', prixSousTraitant: 3500, prixClient: 5000},
+      { title: 'Stylo', selected: false, type: 'Stylo', prixSousTraitant: 300, prixClient: 400},
       { title: 'Macaron', selected: false, type: 'Macaron'}
     ];
 
     this.formats = [
-      { title: 'A5 recto simple - Fin 100/200 fcfa', selected: false, prixSousTraitant: 100, prixClient: 200},
-      { title: 'A5 recto simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A5 recto simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A5 recto-verso simple - Fin', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A5 recto-verso simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A5 recto-verso simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A5 recto plastifié 500/700 fcfa', selected: false, prixSousTraitant: 500, prixClient: 700},
-      { title: 'A5 recto-verso plastifié 500/700 fcfa', selected: false, prixSousTraitant: 500, prixClient: 700},
-      { title: 'A5 recto pélliculé', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A5 recto-verso pélliculé', selected: false, prixSousTraitant: 0, prixClient: 0},
+      { title: 'A5 recto 100/200 fcfa', selected: false, prixSousTraitant: 100, prixClient: 200},
+      // { title: 'A5 recto simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
+      // { title: 'A5 recto simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
+      { title: 'A5 recto-verso 100/200 fcfa', selected: false, prixSousTraitant: 100, prixClient: 200},
+      // { title: 'A5 recto-verso simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
+      // { title: 'A5 recto-verso simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
+      { title: 'A5 recto pélliculé 200/250 fcfa', selected: false, prixSousTraitant: 200, prixClient: 250},
+      { title: 'A5 recto-verso pélliculé 200/250 fcfa', selected: false, prixSousTraitant: 200, prixClient: 250},
+      { title: 'A5 plastifié 500/700 fcfa', selected: false, prixSousTraitant: 500, prixClient: 700},
 
-      { title: 'A4 recto simple - Fin 200/300 fcfa', selected: false, prixSousTraitant: 200, prixClient: 300},
-      { title: 'A4 recto simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A4 recto simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A4 recto-verso simple - Fin 400/500 fcfa', selected: false, prixSousTraitant: 400, prixClient: 500},
-      { title: 'A4 recto-verso simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A4 recto-verso simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A4 recto plastifié 200/250 fcfa', selected: false, prixSousTraitant: 200, prixClient: 250},
-      { title: 'A4 recto-verso plastifié 200/250 fcfa', selected: false, prixSousTraitant: 200, prixClient: 250},
+      { title: 'A4 recto 200/300 fcfa', selected: false, prixSousTraitant: 200, prixClient: 300},
+      // { title: 'A4 recto simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
+      // { title: 'A4 recto simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
+      { title: 'A4 recto-verso 400/500 fcfa', selected: false, prixSousTraitant: 400, prixClient: 500},
+      // { title: 'A4 recto-verso simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
+      // { title: 'A4 recto-verso simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
       { title: 'A4 recto pélliculé 200/300 fcfa', selected: false, prixSousTraitant: 200, prixClient: 300},
       { title: 'A4 recto-verso pélliculé 250/300 fcfa', selected: false, prixSousTraitant: 250, prixClient: 300},
+      { title: 'A4 plastifié 200/250 fcfa', selected: false, prixSousTraitant: 200, prixClient: 250},
 
-      { title: 'A3 recto simple - Fin 400/500 fcfa', selected: false, prixSousTraitant: 400, prixClient: 500},
-      { title: 'A3 recto simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A3 recto simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A3 recto-verso simple - Fin 800/1000 fcfa', selected: false, prixSousTraitant: 800, prixClient: 1000},
-      { title: 'A3 recto-verso simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A3 recto-verso simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
-      { title: 'A3 recto plastifié 500/700 fcfa', selected: false, prixSousTraitant: 500, prixClient: 700},
-      { title: 'A3 recto-verso plastifié 500/700 fcfa', selected: false, prixSousTraitant: 500, prixClient: 700},
+      { title: 'A3 recto 400/500 fcfa', selected: false, prixSousTraitant: 400, prixClient: 500},
+      // { title: 'A3 recto simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
+      // { title: 'A3 recto simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
+      { title: 'A3 recto-verso 800/1000 fcfa', selected: false, prixSousTraitant: 800, prixClient: 1000},
+      // { title: 'A3 recto-verso simple - Moyen', selected: false, prixSousTraitant: 0, prixClient: 0},
+      // { title: 'A3 recto-verso simple - Epais', selected: false, prixSousTraitant: 0, prixClient: 0},
       { title: 'A3 recto pélliculé 500/700 fcfa', selected: false, prixSousTraitant: 500, prixClient: 700},
       { title: 'A3 recto-verso pélliculé 500/700 fcfa', selected: false, prixSousTraitant: 500, prixClient: 700},
+      { title: 'A3 plastifié 500/700 fcfa', selected: false, prixSousTraitant: 500, prixClient: 700},
     ]
 
     this.matieres = [
@@ -115,8 +118,6 @@ export class AppComponent implements OnInit{
       { title: 'Papier plastifié - recto 35/50 fcfa', selected: false, prixSousTraitant: 35, prixClient: 50},
       { title: 'Papier pélliculé - recto 40/50 fcfa', selected: false, prixSousTraitant: 40, prixClient: 50},
       { title: 'Papier simple - recto-verso 50/60 fcfa', selected: false, prixSousTraitant: 50, prixClient: 60},
-      { title: 'Papier plastifié - recto-verso 70/80 fcfa', selected: false, prixSousTraitant: 70, prixClient: 80},
-      { title: 'Papier pélliculé - recto-verso 70/80 fcfa', selected: false, prixSousTraitant: 70, prixClient: 80}
     ]
 
     this.papiers_designs = [
@@ -127,7 +128,13 @@ export class AppComponent implements OnInit{
       { title: '3 Papier transfert - Tshirt 7.500/10.500 fcfa', selected: false, prixSousTraitant: 7500, prixClient: 10500},
       { title: '3 Papier transfert - Sweat 10.500/15.000 fcfa', selected: false, prixSousTraitant: 10500, prixClient: 15000},
       { title: '4 Papier transfert - Tshirt 10.000/14.000 fcfa', selected: false, prixSousTraitant: 10000, prixClient: 14000},
-      { title: '4 Papier transfert - Sweat 14.000/20.000 fcfa', selected: false, prixSousTraitant: 14000, prixClient: 20000},
+      { title: '4 Papier transfert - Sweat 14.000/20.000 fcfa', selected: false, prixSousTraitant: 14000, prixClient: 20000},      
+      { title: 'Broderie 2 points - 0 fcfa', selected: false, prixSousTraitant: 0, prixClient: 0},
+      { title: 'Broderie 8 points - 0 fcfa', selected: false, prixSousTraitant: 0, prixClient: 0},
+      { title: 'Broderie 16 points - 0 fcfa', selected: false, prixSousTraitant: 0, prixClient: 0},
+      { title: 'Broderie 32 points - 0 fcfa', selected: false, prixSousTraitant: 0, prixClient: 0},
+      { title: 'Broderie 64 points - 0 fcfa', selected: false, prixSousTraitant: 0, prixClient: 0},
+      { title: 'Broderie 128 points - 0 fcfa', selected: false, prixSousTraitant: 0, prixClient: 0}
     ]
 
     this.tailles = [
@@ -145,6 +152,11 @@ export class AppComponent implements OnInit{
     this.model_macarons = [
       { title: 'Petit model 250/300 fcfa', selected: false, prixSousTraitant: 250, prixClient: 300},
       { title: 'Grand model 350/500 fcfa', selected: false, prixSousTraitant: 350, prixClient: 500},
+    ]
+
+    this.couleurs = [
+      { title: 'Noir - Blanc 25 fcfa', selected: false, prixSousTraitant: 25, prixClient: 25},
+      { title: 'Quadrie 50 fcfa', selected: false, prixSousTraitant: 50, prixClient: 50},
     ]
   }
 
@@ -172,6 +184,10 @@ export class AppComponent implements OnInit{
     console.log(this.listToAray(this.selectedMacaron, ','));
   }
 
+  onChangeCouleur() {
+    console.log(this.listToAray(this.selectedCouleur, ','));
+  }
+
   onChangeProduit() {
     this.effacer();
         
@@ -183,8 +199,8 @@ export class AppComponent implements OnInit{
         this.show_PapierC = false;
         this.show_PapierD = false;
         this.show_macaronM = false;
-        this.show_quantite1 = true;
-        this.show_quantite2 = false;
+        this.show_quantite = true;
+        this.show_couleur = true;
         break;
       }
 
@@ -195,8 +211,8 @@ export class AppComponent implements OnInit{
         this.show_PapierC = false;
         this.show_PapierD = false;
         this.show_macaronM = false;
-        this.show_quantite1 = true;
-        this.show_quantite2 = false;
+        this.show_quantite = true;
+        this.show_couleur = false;
         break; 
       }
 
@@ -207,8 +223,8 @@ export class AppComponent implements OnInit{
         this.show_PapierC = false;
         this.show_PapierD = true;
         this.show_macaronM = false;
-        this.show_quantite1 = true;
-        this.show_quantite2 = false;
+        this.show_quantite = true;
+        this.show_couleur = false;
         break; 
       }
 
@@ -219,8 +235,8 @@ export class AppComponent implements OnInit{
         this.show_PapierC = true;
         this.show_PapierD = false;
         this.show_macaronM = false;
-        this.show_quantite1 = true;
-        this.show_quantite2 = false;
+        this.show_quantite = true;
+        this.show_couleur = false;
         break; 
       }
 
@@ -231,8 +247,8 @@ export class AppComponent implements OnInit{
         this.show_PapierC = false;
         this.show_PapierD = false;
         this.show_macaronM = true;
-        this.show_quantite1 = false;
-        this.show_quantite2 = true;
+        this.show_quantite = false;
+        this.show_couleur = false;
         break; 
       }
 
@@ -243,8 +259,8 @@ export class AppComponent implements OnInit{
         this.show_PapierC = false;
         this.show_PapierD = false;
         this.show_macaronM = false;
-        this.show_quantite1 = false;
-        this.show_quantite2 = true;
+        this.show_quantite = true;
+        this.show_couleur = false;
         break; 
       } 
    }
@@ -259,81 +275,84 @@ export class AppComponent implements OnInit{
     this.selectedMacaron = 0;
     this.selectedTaille = 0;
     this.selectedMatiere = 0;
-    this.selectedQuantite1 = 0;
-    this.selectedQuantite2 = 0;
+    this.selectedCouleur = 0;
+    this.selectedQuantite = 0;
+    this.calcul_detail_SousTraitant = 'RAS';
+    this.calcul_detail_client = 'RAS';
   }
 
   calculerDevis() {
     switch(this.selectedProduct) { 
       case 'Papier': {
-        console.log(this.listToAray(this.selectedFormat, ',')[0], ' * ', this.selectedQuantite1);
-        console.log(this.listToAray(this.selectedFormat, ',')[1], ' * ', this.selectedQuantite1);
 
-        this.montantClient  = this.listToAray(this.selectedFormat, ',')[0] * this.selectedQuantite1;
-        this.montantSousTraitant  = this.listToAray(this.selectedFormat, ',')[1] * this.selectedQuantite1;
+        this.calcul_detail_client = this.listToAray(this.selectedFormat, ',')[0] + ' * ' + this.selectedQuantite + ' * ' + this.listToAray(this.selectedCouleur, ',')[0];
+        this.calcul_detail_SousTraitant = this.listToAray(this.selectedFormat, ',')[1] + ' * ' + this.selectedQuantite + ' * ' + this.listToAray(this.selectedCouleur, ',')[1];
+
+        this.montantClient  = this.listToAray(this.selectedFormat, ',')[0] * this.selectedQuantite * this.listToAray(this.selectedCouleur, ',')[0];
+        this.montantSousTraitant  = this.listToAray(this.selectedFormat, ',')[1] * this.selectedQuantite * this.listToAray(this.selectedCouleur, ',')[1];
         break;
       }
 
       case 'Etandard': {
-        console.log(this.listToAray(this.selectedMatiere, ',')[0], ' * ', this.selectedTaille, ' * ' , this.selectedQuantite1);
-        console.log(this.listToAray(this.selectedMatiere, ',')[1], ' * ', this.selectedTaille, ' * ' , this.selectedQuantite1);
+        this.calcul_detail_client = this.listToAray(this.selectedMatiere, ',')[0] + ' * ' + this.selectedTaille + ' * ' + this.selectedQuantite;
+        this.calcul_detail_SousTraitant = this.listToAray(this.selectedMatiere, ',')[1] + ' * ' + this.selectedTaille + ' * ' + this.selectedQuantite;
 
-        this.montantClient  = this.listToAray(this.selectedMatiere, ',')[0] * this.selectedTaille * this.selectedQuantite1;
-        this.montantSousTraitant  = this.listToAray(this.selectedMatiere, ',')[1] * this.selectedTaille * this.selectedQuantite1;
+        this.montantClient  = this.listToAray(this.selectedMatiere, ',')[0] * this.selectedTaille * this.selectedQuantite;
+        this.montantSousTraitant  = this.listToAray(this.selectedMatiere, ',')[1] * this.selectedTaille * this.selectedQuantite;
         break; 
       }
 
       case 'Design': {
-        console.log(this.listToAray(this.selectedPapierD, ',')[0], ' * ', this.selectedQuantite1);
-        console.log(this.listToAray(this.selectedPapierD, ',')[1], ' * ', this.selectedQuantite1);
+        this.calcul_detail_client = this.listToAray(this.selectedPapierD, ',')[0] + ' * ' + this.selectedQuantite;
+        this.calcul_detail_SousTraitant = this.listToAray(this.selectedPapierD, ',')[1] + ' * ' + this.selectedQuantite;
 
-        this.montantClient  = this.listToAray(this.selectedPapierD, ',')[0] * this.selectedQuantite1;
-        this.montantSousTraitant  = this.listToAray(this.selectedPapierD, ',')[1] * this.selectedQuantite1;
+        this.montantClient  = this.listToAray(this.selectedPapierD, ',')[0] * this.selectedQuantite;
+        this.montantSousTraitant  = this.listToAray(this.selectedPapierD, ',')[1] * this.selectedQuantite;
         break; 
       }
 
       case 'Carte': {
-        console.log(this.listToAray(this.selectedPapierC, ',')[0], ' * ', this.selectedQuantite1);
-        console.log(this.listToAray(this.selectedPapierC, ',')[1], ' * ', this.selectedQuantite1);
+        this.calcul_detail_client = this.listToAray(this.selectedPapierC, ',')[0] + ' * ' + this.selectedQuantite;
+        this.calcul_detail_SousTraitant = this.listToAray(this.selectedPapierC, ',')[1] + ' * ' + this.selectedQuantite;
 
-        this.montantClient  = this.listToAray(this.selectedPapierC, ',')[0] * this.selectedQuantite1;
-        this.montantSousTraitant  = this.listToAray(this.selectedPapierC, ',')[1] * this.selectedQuantite1;
+        this.montantClient  = this.listToAray(this.selectedPapierC, ',')[0] * this.selectedQuantite;
+        this.montantSousTraitant  = this.listToAray(this.selectedPapierC, ',')[1] * this.selectedQuantite;
         break; 
       }
 
       case 'Macaron': {
-        console.log(this.listToAray(this.selectedMacaron, ',')[0], ' * ', this.selectedQuantite2);
-        console.log(this.listToAray(this.selectedMacaron, ',')[1], ' * ', this.selectedQuantite2);
+        this.calcul_detail_client = this.listToAray(this.selectedMacaron, ',')[0] + ' * ' + this.selectedQuantite;
+        this.calcul_detail_SousTraitant = this.listToAray(this.selectedMacaron, ',')[1] + ' * ' + this.selectedQuantite;
 
-        this.montantClient  = this.listToAray(this.selectedMacaron, ',')[0] * this.selectedQuantite2;
-        this.montantSousTraitant  = this.listToAray(this.selectedMacaron, ',')[1] * this.selectedQuantite2;
+        this.montantClient  = this.listToAray(this.selectedMacaron, ',')[0] * this.selectedQuantite;
+        this.montantSousTraitant  = this.listToAray(this.selectedMacaron, ',')[1] * this.selectedQuantite;
         break; 
       }
 
       case 'MugsM': {
-        console.log('5000', ' * ', this.selectedQuantite2);
-        console.log('5000', ' * ', this.selectedQuantite2);
+        this.calcul_detail_client = '5000' + ' * ' + this.selectedQuantite;
+        this.calcul_detail_SousTraitant = '3500' + ' * ' + this.selectedQuantite;
 
-        this.montantClient  = 5000 * this.selectedQuantite2;
-        this.montantSousTraitant  = 3500 * this.selectedQuantite2;
+        this.montantClient  = 5000 * this.selectedQuantite;
+        this.montantSousTraitant  = 3500 * this.selectedQuantite;
         break; 
       }
 
       case 'Mugs': {
-        console.log('3500', ' * ', this.selectedQuantite2);
-        console.log('2500', ' * ', this.selectedQuantite2);
+        this.calcul_detail_client = '3500' + ' * ' + this.selectedQuantite;
+        this.calcul_detail_SousTraitant = '2500' + ' * ' + this.selectedQuantite;
 
-        this.montantClient  = 3500 * this.selectedQuantite2;
-        this.montantSousTraitant  = 2500 * this.selectedQuantite2;
+        this.montantClient  = 3500 * this.selectedQuantite;
+        this.montantSousTraitant  = 2500 * this.selectedQuantite;
         break; 
       }
 
       case 'Stylo': {
-        console.log('0', ' * ', this.selectedQuantite2);
-        console.log('0', ' * ', this.selectedQuantite2);
+        this.calcul_detail_client = '400' + ' * ' + this.selectedQuantite;
+        this.calcul_detail_SousTraitant = '300' + ' * ' + this.selectedQuantite;
 
-        this.montantClient  = 0 * this.selectedQuantite2;
-        this.montantSousTraitant  = 0 * this.selectedQuantite2;
+        this.montantClient  = 400 * this.selectedQuantite;
+        this.montantSousTraitant  = 300 * this.selectedQuantite;
         break; 
       }
 
