@@ -26,14 +26,14 @@
                   <label for="produit">Format :</label>
                   <select type="text" class="form-control" id="format" required [(ngModel)]="selectedFormat" (change)="onChangeFormat()" name="format">
                     <option>None</option>
-                    <option *ngFor="let format of formats" [value]="format.prixClient">{{ format.title }}</option>
+                    <option *ngFor="let format of formats" [value]="[format.prixClient, format.prixSousTraitant]">{{ format.title }}</option>
                   </select>
                 </div>
                 <div class="form-group" [hidden]="!show_Matiere">
                   <label for="matiere">Matière :</label>
                   <select type="text" class="form-control" id="matiere" required [(ngModel)]="selectedMatiere" (change)="onChangeMatiere()" name="matiere">
                     <option>None</option>
-                    <option *ngFor="let matiere of matieres" [value]="matiere.prixClient">{{ matiere.title }}</option>
+                    <option *ngFor="let matiere of matieres" [value]="[matiere.prixClient, matiere.prixSousTraitant]">{{ matiere.title }}</option>
                   </select>
                 </div>
                 <div class="form-group" [hidden]="!show_Taille">
@@ -47,21 +47,21 @@
                   <label for="papiers_carte">Type de papier :</label>
                   <select type="text" class="form-control" id="taille" required [(ngModel)]="selectedPapierC" (change)="onChangePapiers_cartes()" name="taille">
                     <option>None</option>
-                    <option *ngFor="let papiers_carte of papiers_cartes" [value]="papiers_carte.prixClient">{{ papiers_carte.title }}</option>
+                    <option *ngFor="let papiers_carte of papiers_cartes" [value]="[papiers_carte.prixClient, papiers_carte.prixSousTraitant]">{{ papiers_carte.title }}</option>
                   </select>
                 </div>
                 <div class="form-group" [hidden]="!show_PapierD">
                   <label for="papiers_design">Type de papier :</label>
                   <select type="text" class="form-control" id="taille" required [(ngModel)]="selectedPapierD" (change)="onChangePapiers_designs()" name="taille">
                     <option>None</option>
-                    <option *ngFor="let papiers_design of papiers_designs" [value]="papiers_design.prixClient">{{ papiers_design.title }}</option>
+                    <option *ngFor="let papiers_design of papiers_designs" [value]="[papiers_design.prixClient, papiers_design.prixSousTraitant]">{{ papiers_design.title }}</option>
                   </select>
                 </div>
                 <div class="form-group" [hidden]="!show_macaronM">
                   <label for="papiers_design">Model de macaron :</label>
                   <select type="text" class="form-control" id="taille" required [(ngModel)]="selectedMacaron" (change)="onChangeMacaron_model()" name="taille">
                     <option>None</option>
-                    <option *ngFor="let model_macaron of model_macarons" [value]="model_macaron.prixClient">{{ model_macaron.title }}</option>
+                    <option *ngFor="let model_macaron of model_macarons" [value]="[model_macaron.prixClient, model_macaron.prixSousTraitant]">{{ model_macaron.title }}</option>
                   </select>
                 </div>
                 <div class="form-group" [hidden]="!show_quantite1">
@@ -81,7 +81,8 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Total du Devis</h5>
-              <p class="card-text">{{ montant  | currency:'XAF' }}</p>
+              <p class="card-text">Client : {{ montantClient  | currency:'XAF' }}</p>
+              <p class="card-text">Sous traitant : {{ montantSousTraitant  | currency:'XAF' }}</p>
               <p class="card-link" style="color: rgb(0, 162, 255);" (click)="effacer()">Effacer</p>
             </div>
           </div>
