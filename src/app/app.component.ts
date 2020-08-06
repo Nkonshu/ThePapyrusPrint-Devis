@@ -60,7 +60,7 @@ export class AppComponent implements OnInit{
       { title: 'Calendrier', selected: false, type: 'Papier'},
       { title: 'Chemise porte documents', selected: false, type: 'Papier'},
       { title: 'Affiches', selected: false, type: 'Papier'},
-      { title: 'Sac papier - Packaging', selected: false, type: 'papier'},
+      { title: 'Sac papier - Packaging', selected: false, type: 'Papier'},
       { title: 'Sac plastique - Packaging', selected: false, type: 'Design'},
       { title: 'T-shirt', selected: false, type: 'Design'},
       { title: 'Sweat-shirt', selected: false, type: 'Design'},
