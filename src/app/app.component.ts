@@ -285,11 +285,11 @@ export class AppComponent implements OnInit{
     switch(this.selectedProduct) { 
       case 'Papier': {
 
-        this.calcul_detail_client = this.listToAray(this.selectedFormat, ',')[0] + ' * ' + this.selectedQuantite + ' * ' + this.listToAray(this.selectedCouleur, ',')[0];
-        this.calcul_detail_SousTraitant = this.listToAray(this.selectedFormat, ',')[1] + ' * ' + this.selectedQuantite + ' * ' + this.listToAray(this.selectedCouleur, ',')[1];
+        this.calcul_detail_client = this.listToAray(this.selectedFormat, ',')[0] + ' * ' + this.selectedQuantite;
+        this.calcul_detail_SousTraitant = this.listToAray(this.selectedFormat, ',')[1] + ' * ' + this.selectedQuantite;
 
-        this.montantClient  = this.listToAray(this.selectedFormat, ',')[0] * this.selectedQuantite * this.listToAray(this.selectedCouleur, ',')[0];
-        this.montantSousTraitant  = this.listToAray(this.selectedFormat, ',')[1] * this.selectedQuantite * this.listToAray(this.selectedCouleur, ',')[1];
+        this.montantClient  = this.listToAray(this.selectedFormat, ',')[0] * this.selectedQuantite;
+        this.montantSousTraitant  = this.listToAray(this.selectedFormat, ',')[1] * this.selectedQuantite;
         break;
       }
 
