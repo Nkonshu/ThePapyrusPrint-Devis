@@ -189,7 +189,7 @@ export class AppComponent implements OnInit{
   }
 
   onChangeProduit() {
-    this.effacer();
+    // this.effacer();
         
     switch(this.selectedProduct) { 
       case 'Papier': {
